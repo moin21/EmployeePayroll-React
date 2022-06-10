@@ -5,24 +5,20 @@ import profile3 from './edit-svgrepo-com.svg'
 import profile1 from './edit-svgrepo-com.svg'
 import profile7 from './edit-svgrepo-com.svg'
 import profile8 from './edit-svgrepo-com.svg'
+import { Link } from "react-router-dom"
 // import profile5 from './Ellipse -5.png'
 // import profile6 from './Ellipse -6.png'
 
 function EmployeeForm() {
     return (
         <div>
-            <header class="header-content header">
-                <div class="logo-content">
-                    <img src={logo} alt="logo" />
-                    <div>
-                        <span class="emp-text">EMPLOYEE</span>
-                        <span class="emp-text emp-payroll">PAYROLL</span>
-                    </div>
-                </div>
-            </header>
+
             <div class="form-content">
                 <form class="form" action="#" onreset="resetForm()"
                     onsubmit="save()">
+                    <div class="form-head">
+                        Employee Payroll form
+                    </div>
                     <div class="row-content">
                         <label for="name" class="label text">Name</label>
                         <input type="text" class="input" id="name" name="name"
@@ -165,11 +161,11 @@ function EmployeeForm() {
                             placeholder=""></textarea>
                     </div>
                     <div class="buttonParent">
-                        <a href="home.html" class="resetButton
-                        button cancelButton">Cancel</a>
+                        <Link to="/" class="resetButton
+                        button cancelButton">Cancel</Link>
                         <div class="submit-reset">
-                            <button class="button submitButton" id="submitButton"
-                                type="submit">Submit</button>
+                            <Link to="/" class="submitButton
+                        button cancelButton">Submit</Link>
                             <button type="reset" class="resetButton button">Reset</button>
                         </div>
                     </div>

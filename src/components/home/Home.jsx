@@ -3,27 +3,19 @@ import "./Home.css";
 import logo from "../../download.png"
 import edit from "./edit-svgrepo-com.svg"
 import deleteicon from "./delete-svgrepo-com.svg"
+import { Link } from "react-router-dom"
 function Home() {
     return (
         <div>
-            <header class="header-content header">
-                <div class="logo-content">
-                    <img src={logo} alt="logo" />
-                    <div>
-                        <span class="emp-text">EMPLOYEE</span><br />
-                        <span class="emp-text emp-payroll">PAYROLL</span>
-                    </div>
-                </div>
-            </header>
+
             <div class="main-content">
                 <div class="header-content employee-header">
                     <div class="emp-detail-text">
                         Employee Details
                         <div class="emp-count">10</div>
                     </div>
-                    <a href="../Employee" class="add-button">
-                        <img src="../assets/download.png" alt="" />Add User
-                    </a>
+                    <Link to="employee" class="add-button">
+                        <img src="../assets/download.png" alt="" />Add User</Link>
                 </div>
             </div>
             <div className='table-main'>
