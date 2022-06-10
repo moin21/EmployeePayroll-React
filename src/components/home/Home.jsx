@@ -14,8 +14,8 @@ function Home() {
                         Employee Details
                         <div class="emp-count">10</div>
                     </div>
-                    <Link to="employee" class="add-button">
-                        <img src="../assets/download.png" alt="" />Add User</Link>
+                    <Link to="/employee" class="add-button">
+                        <img src={deleteicon} alt="" />Add User</Link>
                 </div>
             </div>
             <div className='table-main'>

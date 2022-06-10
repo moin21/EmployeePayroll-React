@@ -62,7 +62,11 @@ body {
   border-radius: 8px;
   opacity: 1;
 }
-
+.form-head {
+  text-align: right;
+  margin-bottom: 20px;
+  font-size: large;
+}
 .row-content {
   display: flex;
   flex-direction: row;
