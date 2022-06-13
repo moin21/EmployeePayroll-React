@@ -1,6 +1,5 @@
 import React from 'react'
 import "./Home.css";
-import logo from "../../download.png"
 import edit from "./edit-svgrepo-com.svg"
 import deleteicon from "./delete-svgrepo-com.svg"
 import { Link } from "react-router-dom"
@@ -15,7 +14,7 @@ function Home() {
                         <div class="emp-count">10</div>
                     </div>
                     <Link to="/employee" class="add-button">
-                        <img src={deleteicon} alt="" />Add User</Link>
+                        <img src="" alt="" />+ Add User</Link>
                 </div>
             </div>
             <div className='table-main'>
