@@ -5,6 +5,7 @@ import profile1 from './edit-svgrepo-com.svg'
 import profile7 from './edit-svgrepo-com.svg'
 import profile8 from './edit-svgrepo-com.svg'
 import { Link } from "react-router-dom"
+import EmployeeService from '../../service/EmployeeService'
 
 function EmployeeForm() {
     const allDepartment = ["HR", "Sales", "Finance", "Engineer", "Others"]
@@ -29,15 +30,20 @@ function EmployeeForm() {
         else checkArray.push(name);
 
         setForm({ ...formValue, department: checkArray });
-    };
 
-    const getChecked = (name) => {
-        return (
-            formValue.department &&
-            formValue.department.includes(name)
-        );
     };
-    const submit = (event) => {
+    const onReset = () => {
+        setForm({
+            name: "",
+            profilePic: "",
+            gender: "",
+            department: [],
+            salary: "",
+            startDate: "",
+            notes: ""
+        });
+    };
+    const onSubmit = (event) => {
         event.preventDefault();
 
         let employeeObject = {
@@ -46,19 +52,21 @@ function EmployeeForm() {
             gender: formValue.gender,
             salary: formValue.salary,
             profilePic: formValue.profilePic,
-            startDate: `${formValue.day} ${formValue.month}${formValue.year}`,
+            startDate: `${formValue.year}-${formValue.month}-${formValue.day}`,
             notes: formValue.notes
         };
+        EmployeeService.addEmployee(employeeObject).then((response) => {
+            console.log(response);
+            alert("Data Added Successfully ", response);
+        })
         localStorage.setItem('EmployeeList', JSON.stringify(employeeObject));
         console.log(employeeObject);
+        alert(`Employee ${formValue.name} has been added`)
     }
-
-
-
 
     const onNameChange = (event) => {
         setForm({ ...formValue, [event.target.name]: event.target.value });
-        console.log('value is', event.target.value);
+        console.log('value for', event.target.name, event.target.value);
     }
 
     return (
@@ -121,7 +129,7 @@ function EmployeeForm() {
                         </div>
                     </div>
                     <div className="row-content">
-                        <label className="label-text-dep" htmlFor="department">
+                        <label className="label text" htmlFor="department">
                             Department
                         </label>
                         <div className="label-dep">
@@ -131,8 +139,6 @@ function EmployeeForm() {
                                         className="checkbox"
                                         type="checkbox"
                                         onChange={() => onCheckChange(item)}
-                                        name={item}
-                                        checked={getChecked(item)}
                                         value={item}
                                     />
                                     <label className="text" htmlFor={item}>
@@ -147,18 +153,18 @@ function EmployeeForm() {
                         <label htmlFor="salary" className="label text">Choose your salary:
                         </label>
                         <input type="range" className="input" name="salary" id="salary"
-                            min="300000" max="500000" step="100" value={formValue.salary} onChange={onNameChange} />
-                        <output className="salary-output text" htmlFor="salary">400000</output>
+                            min="300000" max="500000" step="100" value={formValue.salary} defaultValue="400000" onChange={onNameChange} />
+                        <output className="salary-output text" htmlFor="salary">{formValue.salary}</output>
                     </div>
                     <div className="row-content">
                         <label className="label text" htmlFor="startDate">Start Date</label>
                         <div>
                             <select id="day" name="day" value={formValue.day}
                                 onChange={onNameChange}>
-                                <option value="" disabled selected>Day</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option value="">Day</option>
+                                <option value="01">1</option>
+                                <option value="02">2</option>
+                                <option value="03">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -190,9 +196,9 @@ function EmployeeForm() {
                             </select>
                             <select name="month" id="month" value={formValue.month}
                                 onChange={onNameChange}>
-                                <option value="" disabled selected>Month</option>
-                                <option value="Jan">January</option>
-                                <option value="Feb">Febuary</option>
+                                <option value="" >Month</option>
+                                <option value="01">January</option>
+                                <option value="02">Febuary</option>
                                 <option value="Mar">March</option>
                                 <option value="Apr">April</option>
                                 <option value="May">May</option>
@@ -204,8 +210,8 @@ function EmployeeForm() {
                                 <option value="Nov">November</option>
                                 <option value="Dec">December</option>
                             </select>
-                            <select name="year" id="year" value={formValue.salary} onChange={onNameChange}>
-                                <option value="" disabled selected>Year</option>
+                            <select name="year" id="year" value={formValue.year} onChange={onNameChange}>
+                                <option value="" >Year</option>
                                 <option value="2020">2020</option>
                                 <option value="2019">2019</option>
                                 <option value="2018">2018</option>
@@ -223,9 +229,8 @@ function EmployeeForm() {
                         <Link to="/" className="resetButton
                         button cancelButton">Cancel</Link>
                         <div className="submit-reset">
-                            <button className="button submitButton" id="submitButton" onClick={submit}
-                                type="submit">Submit</button>
-                            <button type="reset" className="resetButton button">Reset</button>
+                            <button className="button submitButton" id="submitButton" onClick={onSubmit} type="submit">Submit</button>
+                            <button type="reset" className="button resetButton" id="resetButton" onClick={onReset}>Reset</button>
                         </div>
                     </div>
                 </form>
