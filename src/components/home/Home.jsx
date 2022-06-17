@@ -1,10 +1,12 @@
 import React, { Component, useState } from "react";
 import "./Home.css";
-
+import edit from "./edit.svg";
+import deleteicon from "./delete.svg";
+import profile3 from '../payroll-form/alpha.jpg'
+import profile1 from '../payroll-form/bravo.jpg'
+import profile7 from '../payroll-form/charlie.jpg'
+import profile8 from '../payroll-form/delta.jpg'
 import { Link } from "react-router-dom";
-
-// import delete1 from "../assets/icons/delete.svg";
-// import edit1 from "../assets/icons/edit.svg";
 
 
 import EmployeeService from "../../service/EmployeeService";
@@ -16,7 +18,9 @@ class Home extends Component {
         this.state = {
             employee: [],
         };
+
     }
+
 
 
 
@@ -24,6 +28,11 @@ class Home extends Component {
         EmployeeService.getAllEmployees().then((response) => {
             this.setState({ employee: response.data.data });
         });
+    }
+    deleteEmployee(employeeId) {
+        console.log("employee id" + employeeId);
+        EmployeeService.delete(employeeId);
+        window.location.reload();
     }
 
     componentDidMount() {
@@ -38,7 +47,7 @@ class Home extends Component {
                         <div className="header-content employee-header">
                             <div className="emp-detail-text">
                                 Employee Details
-                                <div className="emp-count">10</div>
+                                <div className="emp-count">{this.state.employee.length}</div>
                             </div>
                             <Link to="/employee" className="add-button">
                                 <img src="" alt="" />+ Add User</Link>
@@ -61,7 +70,11 @@ class Home extends Component {
                             <tbody>
                                 {this.state.employee.map((employee) => (
                                     <tr key={employee.id}>
-                                        <td><img src={employee.profilePic} alt="ProfilePic" srcset="" /></td>
+                                        <td>
+                                            <img src={employee.profilePic === "../payroll-form/alpha.jpg" ? profile3 :
+                                                employee.profilePic === "../payroll-form/bravo.jpg" ? profile1 :
+                                                    employee.profilePic === "../payroll-form/charlie.jpg" ? profile7 : profile8
+                                            } alt="ProfilePic" srcset="" /></td>
                                         <td>{employee.name}</td>
                                         <td>{employee.gender}</td>
                                         <td>
@@ -73,15 +86,14 @@ class Home extends Component {
                                         <td>
                                             <img
                                                 name={employee.id}
-                                                src="{delete1}"
+                                                src={deleteicon}
                                                 alt="delete"
-                                                onClick={() =>
-                                                    this.deleteEmployee(employee.id)
+                                                onClick={() => { this.deleteEmployee(employee.id) && this.fetchData() }
                                                 }
                                             />
                                             <img
                                                 name={employee.id}
-                                                src="{edit1}"
+                                                src={edit}
                                                 alt="edit"
                                                 onClick={() =>
                                                     this.updateEmployee(employee.id)

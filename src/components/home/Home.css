@@ -145,9 +145,9 @@ td img :first-child {
 
 td img {
   cursor: pointer;
-  max-width: 20px;
-  max-height: 20px;
-  margin-left: 17px;
+  max-width: 30px;
+  max-height: 30px;
+  margin-left: 20px;
 }
 
 .dept-label {

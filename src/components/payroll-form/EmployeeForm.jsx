@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import './EmployeeForm.css'
-import profile3 from './edit-svgrepo-com.svg'
-import profile1 from './edit-svgrepo-com.svg'
-import profile7 from './edit-svgrepo-com.svg'
-import profile8 from './edit-svgrepo-com.svg'
+import profile3 from './alpha.jpg'
+import profile1 from './bravo.jpg'
+import profile7 from './charlie.jpg'
+import profile8 from './delta.jpg'
 import { Link } from "react-router-dom"
 import EmployeeService from '../../service/EmployeeService'
 
@@ -20,7 +20,23 @@ function EmployeeForm() {
         isUpdate: false,
     });
 
-
+    const getDataById = (id) => {
+        console.log("method is calling");
+        EmployeeService.getEmployeeById(id).then((response) => {
+            console.log(response);
+            setForm({
+                ...formValue,
+                ...response,
+                name: response.data.data.name,
+                profile: response.data.data.profile,
+                gender: response.data.data.gender,
+                department: response.data.data.department,
+                salary: response.data.data.salary,
+                startDate: response.data.data.startDate,
+                notes: response.data.data.note
+            });
+        });
+    };
     const onCheckChange = (name) => {
         let index = formValue.department.indexOf(name);
 
@@ -57,7 +73,6 @@ function EmployeeForm() {
         };
         EmployeeService.addEmployee(employeeObject).then((response) => {
             console.log(response);
-            alert("Data Added Successfully ", response);
         })
         localStorage.setItem('EmployeeList', JSON.stringify(employeeObject));
         console.log(employeeObject);
@@ -90,30 +105,30 @@ function EmployeeForm() {
                         <div className="profile-radio-content">
                             <label>
                                 <input type="radio" id="profile1" name="profilePic"
-                                    value={profile3} onChange={onNameChange} />
+                                    value="./alpha.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image1"
-                                    src={profile3} />
+                                    src={profile3} alt="" />
                             </label>
                             <label>
                                 <input type="radio" id="profile2"
                                     name="profilePic"
-                                    value={profile1} onChange={onNameChange} />
+                                    value="./bravo.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image2"
-                                    src={profile1} />
+                                    src={profile1} alt="" />
                             </label>
                             <label>
                                 <input type="radio" id="profil3"
                                     name="profilePic"
-                                    value={profile7} onChange={onNameChange} />
+                                    value="./charlie.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image3"
-                                    src={profile7} />
+                                    src={profile7} alt="" />
                             </label>
                             <label>
                                 <input type="radio" id="profile4"
                                     name="profilePic"
-                                    value={profile8} onChange={onNameChange} />
+                                    value="./delta.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image4"
-                                    src={profile8} />
+                                    src={profile8} alt="" />
                             </label>
                         </div>
                     </div>
@@ -165,12 +180,12 @@ function EmployeeForm() {
                                 <option value="01">1</option>
                                 <option value="02">2</option>
                                 <option value="03">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
+                                <option value="04">4</option>
+                                <option value="05">5</option>
+                                <option value="06">6</option>
+                                <option value="07">7</option>
+                                <option value="08">8</option>
+                                <option value="09">9</option>
                                 <option value="10">10</option>
                                 <option value="11">11</option>
                                 <option value="12">12</option>
@@ -199,16 +214,16 @@ function EmployeeForm() {
                                 <option value="" >Month</option>
                                 <option value="01">January</option>
                                 <option value="02">Febuary</option>
-                                <option value="Mar">March</option>
-                                <option value="Apr">April</option>
-                                <option value="May">May</option>
-                                <option value="Jun">June</option>
-                                <option value="Jul">July</option>
-                                <option value="Aug">August</option>
-                                <option value="Sep">September</option>
-                                <option value="Oct">October</option>
-                                <option value="Nov">November</option>
-                                <option value="Dec">December</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
                             </select>
                             <select name="year" id="year" value={formValue.year} onChange={onNameChange}>
                                 <option value="" >Year</option>
