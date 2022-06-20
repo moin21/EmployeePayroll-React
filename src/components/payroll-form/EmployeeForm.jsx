@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './EmployeeForm.css'
 import profile3 from './alpha.jpg'
 import profile1 from './bravo.jpg'
 import profile7 from './charlie.jpg'
 import profile8 from './delta.jpg'
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import EmployeeService from '../../service/EmployeeService'
 
 function EmployeeForm() {
@@ -19,22 +19,45 @@ function EmployeeForm() {
         notes: "",
         isUpdate: false,
     });
+    const params = useParams();
+    console.log(useParams());
 
-    const getDataById = (id) => {
-        console.log("method is calling");
-        EmployeeService.getEmployeeById(id).then((response) => {
-            console.log(response);
-            setForm({
-                ...formValue,
-                ...response,
-                name: response.data.data.name,
-                profile: response.data.data.profile,
-                gender: response.data.data.gender,
-                department: response.data.data.department,
-                salary: response.data.data.salary,
-                startDate: response.data.data.startDate,
-                notes: response.data.data.note
-            });
+    useEffect(() => {
+        console.log(params.id)
+        if (params.id) {
+            getEmployeeId(params.id)
+            console.log(params.id)
+
+        }
+    }, [params.id]);
+    const getEmployeeId = (employeeId) => {
+        console.log("Data Found")
+        EmployeeService.getById(employeeId).then((data) => {
+            console.log(data)
+            let obj = data.data.data;
+            console.log(obj);
+            setData(obj)
+        })
+            .catch((errror) => {
+                alert("Error: " + errror)
+            })
+    };
+    const setData = (obj) => {
+        let array = obj.startDate;
+        console.log(array);
+        console.log(obj)
+        console.log()
+        setForm({
+            ...formValue,
+            ...obj,
+            id: obj.id,
+            name: obj.name,
+            department: obj.department,
+            isUpdate: true,
+            day: array[0] + array[1],
+            month: array[3] + array[4] + array[5],
+            year: array[7] + array[8] + array[9] + array[10],
+            notes: obj.notes,
         });
     };
     const onCheckChange = (name) => {
@@ -71,12 +94,24 @@ function EmployeeForm() {
             startDate: `${formValue.year}-${formValue.month}-${formValue.day}`,
             notes: formValue.notes
         };
-        EmployeeService.addEmployee(employeeObject).then((response) => {
-            console.log(response);
-        })
-        localStorage.setItem('EmployeeList', JSON.stringify(employeeObject));
-        console.log(employeeObject);
-        alert(`Employee ${formValue.name} has been added`)
+        if (formValue.isUpdate) {
+            EmployeeService.updateEmployee(params.id, employeeObject)
+                .then((data) => {
+                    var value = window.confirm(data);
+                    if (value === true) {
+                        alert("update successfull!");
+                        this.props.history.push("");
+                    } else {
+                        window.location.reload();
+                    }
+                });
+        } else {
+            EmployeeService
+                .addEmployee(employeeObject).then((response) => {
+                    console.log(response);
+                    alert("Data Added!!", response)
+                })
+        }
     }
 
     const onNameChange = (event) => {
@@ -90,7 +125,7 @@ function EmployeeForm() {
 
             <div className="form-content">
                 <form className="form" action="#" onReset="resetForm()"
-                    onSubmit="save()">
+                    onSubmit={onSubmit}>
                     <div className="form-head">
                         Employee Payroll form
                     </div>
@@ -241,11 +276,12 @@ function EmployeeForm() {
                             value={formValue.notes} placeholder="" onChange={onNameChange}></textarea>
                     </div>
                     <div className="buttonParent">
-                        <Link to="/" className="resetButton
+                        <Link to="/home" className="resetButton
                         button cancelButton">Cancel</Link>
                         <div className="submit-reset">
-                            <button className="button submitButton" id="submitButton" onClick={onSubmit} type="submit">Submit</button>
+                            <button type="submit" className="button submitButton" id="submitButton">{formValue.isUpdate ? 'Update' : 'Submit'}</button>
                             <button type="reset" className="button resetButton" id="resetButton" onClick={onReset}>Reset</button>
+
                         </div>
                     </div>
                 </form>

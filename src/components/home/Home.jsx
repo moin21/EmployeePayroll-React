@@ -1,4 +1,5 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
+
 import "./Home.css";
 import edit from "./edit.svg";
 import deleteicon from "./delete.svg";
@@ -6,10 +7,12 @@ import profile3 from '../payroll-form/alpha.jpg'
 import profile1 from '../payroll-form/bravo.jpg'
 import profile7 from '../payroll-form/charlie.jpg'
 import profile8 from '../payroll-form/delta.jpg'
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
+import { Route } from "react-router";
 
 
 import EmployeeService from "../../service/EmployeeService";
+import EmployeeForm from "../payroll-form/EmployeeForm";
 
 class Home extends Component {
     constructor(props) {
@@ -38,6 +41,11 @@ class Home extends Component {
     componentDidMount() {
         this.fetchData();
     }
+    updateEmployee = (employeeId) => {
+        console.log(employeeId)
+        this.props.history.push(`EmployeeForm/${employeeId}`);
+    };
+
 
     render() {
         return (
@@ -95,8 +103,9 @@ class Home extends Component {
                                                 name={employee.id}
                                                 src={edit}
                                                 alt="edit"
-                                                onClick={() =>
+                                                onClick={() => {
                                                     this.updateEmployee(employee.id)
+                                                }
                                                 }
                                             />
                                         </td>
@@ -106,8 +115,8 @@ class Home extends Component {
                         </table>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }
-export default Home;
+export default withRouter(Home);

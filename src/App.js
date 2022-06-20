@@ -3,7 +3,7 @@ import "./App.css";
 import Home from "./components/home/Home";
 import EmployeeForm from "./components/payroll-form/EmployeeForm";
 import Header from "./components/header";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
   //onClick Function
@@ -16,12 +16,19 @@ class App extends React.Component {
     return (
       <>
         <Header />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/employee" element={<EmployeeForm />} />
-          </Routes>
-        </BrowserRouter>
+        <Router>
+          <Switch>
+            <Route path="/home">
+              <Home />
+            </Route>
+            <Route path="/employee">
+              <EmployeeForm />
+            </Route>
+            <Route path="/EmployeeForm/:id">
+              <EmployeeForm />
+            </Route>
+          </Switch>
+        </Router>
       </>
     );
   }
