@@ -19,34 +19,24 @@ function EmployeeForm() {
         notes: "",
         isUpdate: false,
     });
-    const params = useParams();
-    console.log(useParams());
 
+    const params = useParams();
     useEffect(() => {
         console.log(params.id)
-        if (params.id) {
-            getEmployeeId(params.id)
-            console.log(params.id)
+        getEmployeeId(params.id)
 
-        }
     }, [params.id]);
     const getEmployeeId = (employeeId) => {
-        console.log("Data Found")
         EmployeeService.getById(employeeId).then((data) => {
-            console.log(data)
             let obj = data.data.data;
-            console.log(obj);
             setData(obj)
         })
-            .catch((errror) => {
-                alert("Error: " + errror)
-            })
+
     };
     const setData = (obj) => {
         let array = obj.startDate;
         console.log(array);
         console.log(obj)
-        console.log()
         setForm({
             ...formValue,
             ...obj,
@@ -54,9 +44,9 @@ function EmployeeForm() {
             name: obj.name,
             department: obj.department,
             isUpdate: true,
-            day: array[0] + array[1],
-            month: array[3] + array[4] + array[5],
-            year: array[7] + array[8] + array[9] + array[10],
+            day: array[8] + array[9],
+            month: array[5] + array[6],
+            year: array[0] + array[1] + array[2] + array[3],
             notes: obj.notes,
         });
     };
@@ -71,6 +61,9 @@ function EmployeeForm() {
         setForm({ ...formValue, department: checkArray });
 
     };
+    const checkDepartment = (name) => {
+        return formValue.department && formValue.department.includes(name);
+    }
     const onReset = () => {
         setForm({
             name: "",
@@ -82,6 +75,7 @@ function EmployeeForm() {
             notes: ""
         });
     };
+
     const onSubmit = (event) => {
         event.preventDefault();
 
@@ -100,7 +94,6 @@ function EmployeeForm() {
                     var value = window.confirm(data);
                     if (value === true) {
                         alert("update successfull!");
-                        this.props.history.push("");
                     } else {
                         window.location.reload();
                     }
@@ -140,6 +133,7 @@ function EmployeeForm() {
                         <div className="profile-radio-content">
                             <label>
                                 <input type="radio" id="profile1" name="profilePic"
+                                    checked={formValue.profilePic === './alpha.jpg'}
                                     value="./alpha.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image1"
                                     src={profile3} alt="" />
@@ -147,6 +141,7 @@ function EmployeeForm() {
                             <label>
                                 <input type="radio" id="profile2"
                                     name="profilePic"
+                                    checked={formValue.profilePic === './bravo.jpg'}
                                     value="./bravo.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image2"
                                     src={profile1} alt="" />
@@ -154,6 +149,7 @@ function EmployeeForm() {
                             <label>
                                 <input type="radio" id="profil3"
                                     name="profilePic"
+                                    checked={formValue.profilePic === './charlie.jpg'}
                                     value="./charlie.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image3"
                                     src={profile7} alt="" />
@@ -161,6 +157,7 @@ function EmployeeForm() {
                             <label>
                                 <input type="radio" id="profile4"
                                     name="profilePic"
+                                    checked={formValue.profilePic === './delta.jpg'}
                                     value="./delta.jpg" onChange={onNameChange} />
                                 <img className="profile" id="image4"
                                     src={profile8} alt="" />
@@ -171,9 +168,11 @@ function EmployeeForm() {
                         <label htmlFor="gender" className="label text">Gender</label>
                         <div>
                             <input type="radio" id="male" name="gender"
+                                checked={formValue.gender === 'male'}
                                 value="male" onChange={onNameChange} />
                             <label htmlFor="male" className="text">Male</label>
                             <input type="radio" id="female" name="gender"
+                                checked={formValue.gender === 'female'}
                                 value="female" onChange={onNameChange} />
                             <label htmlFor="female" className="text">Female</label>
                         </div>
@@ -188,6 +187,7 @@ function EmployeeForm() {
                                     <input
                                         className="checkbox"
                                         type="checkbox"
+                                        checked={checkDepartment(item)}
                                         onChange={() => onCheckChange(item)}
                                         value={item}
                                     />
@@ -260,7 +260,7 @@ function EmployeeForm() {
                                 <option value="11">November</option>
                                 <option value="12">December</option>
                             </select>
-                            <select name="year" id="year" value={formValue.year} onChange={onNameChange}>
+                            <select name="year" value={formValue.year} onChange={onNameChange}>
                                 <option value="" >Year</option>
                                 <option value="2020">2020</option>
                                 <option value="2019">2019</option>

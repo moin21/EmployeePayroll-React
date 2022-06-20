@@ -3,16 +3,15 @@ import React, { Component } from "react";
 import "./Home.css";
 import edit from "./edit.svg";
 import deleteicon from "./delete.svg";
-import profile3 from '../payroll-form/alpha.jpg'
-import profile1 from '../payroll-form/bravo.jpg'
-import profile7 from '../payroll-form/charlie.jpg'
-import profile8 from '../payroll-form/delta.jpg'
+import profile3 from './alpha.jpg'
+import profile1 from './bravo.jpg'
+import profile7 from './charlie.jpg'
+import profile8 from './delta.jpg'
 import { withRouter, Link } from "react-router-dom";
 import { Route } from "react-router";
 
 
 import EmployeeService from "../../service/EmployeeService";
-import EmployeeForm from "../payroll-form/EmployeeForm";
 
 class Home extends Component {
     constructor(props) {
@@ -76,12 +75,12 @@ class Home extends Component {
                             </thead>
 
                             <tbody>
-                                {this.state.employee.map((employee) => (
-                                    <tr key={employee.id}>
+                                {this.state.employee.map((employee, index) => (
+                                    <tr key={`${index}`}>
                                         <td>
-                                            <img src={employee.profilePic === "../payroll-form/alpha.jpg" ? profile3 :
-                                                employee.profilePic === "../payroll-form/bravo.jpg" ? profile1 :
-                                                    employee.profilePic === "../payroll-form/charlie.jpg" ? profile7 : profile8
+                                            <img src={employee.profilePic === './alpha.jpg' ? profile3 :
+                                                employee.profilePic === "./bravo.jpg" ? profile1 :
+                                                    employee.profilePic === "./charlie.jpg" ? profile7 : profile8
                                             } alt="ProfilePic" srcset="" /></td>
                                         <td>{employee.name}</td>
                                         <td>{employee.gender}</td>
